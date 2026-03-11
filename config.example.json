@@ -1,0 +1,7 @@
+{
+    "server": "your_server_instance",
+    "database": "master",
+    "username": "your_username",
+    "password": "your_password",
+    "driver": "ODBC Driver 17 for SQL Server"
+}

@@ -1,0 +1,4 @@
+pyodbc>=4.0.35
+pandas>=1.5.0
+plotly>=5.11.0
+dash>=2.7.0
