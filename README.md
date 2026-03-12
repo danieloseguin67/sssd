@@ -1,20 +1,77 @@
-# SQL Server Wait Statistics Dashboard
+# SQL Server Monitoring Dashboard (SSSD)
 
-A real-time Python dashboard for monitoring SQL Server wait statistics and query performance.
+A comprehensive real-time Python dashboard for monitoring SQL Server performance, health, and reliability.
 
 ## Features
 
-1. **Top 5 Wait Types Line Chart** - Monitor the most significant wait types over time
-2. **Top 10 Queries Table** - View queries with the highest total wait time
-3. **Wait Type Distribution Pie Chart** - Visualize the distribution of different wait types
-4. **Average Wait Times Bar Chart** - Compare average wait times across different wait types
-5. **Auto-refresh** - Configurable refresh intervals (5s, 10s, 30s, 60s, or manual)
+### 📊 Page 1: Overview Dashboard
+- **Overall Health Score** - Composite system health indicator (0-100%)
+- **Active Alerts** - Real-time blocking sessions count
+- **Performance KPIs** - Query latency, CPU usage, memory pressure, I/O latency
+- **CPU & Memory Gauges** - Visual indicators with color-coded thresholds
+- **Wait Category Distribution** - Donut chart showing wait type breakdown
+- **Top I/O Latency** - Database files with highest read/write latency
+
+### ⚡ Page 2: Performance & Workload
+- **Query Performance Metrics**
+  - Average, 95th, and 99th percentile query duration
+  - Total executions and unique query count
+- **Top 10 Queries by Duration** - Slowest executing queries
+- **Top 10 Queries by CPU Time** - Most CPU-intensive queries
+- **Top 10 Queries by Logical Reads** - Queries with highest I/O
+- **Top 10 Wait Types** - Major bottlenecks affecting performance
+- **Batch Requests/Sec** - Throughput monitoring
+
+### 💾 Page 3: Storage & I/O Health
+- **I/O Latency Metrics**
+  - Average read and write latency per database file
+  - I/O stall time analysis
+- **Database File Sizes** - Data and log file size tracking
+- **Index Health**
+  - Index fragmentation report (>10% threshold)
+  - Unused indexes identification
+  - Missing index recommendations with improvement measurements
+- **Disk space and growth monitoring**
+
+### 🔒 Page 4: Reliability & Availability
+- **SQL Server Uptime** - Days and hours since last restart
+- **Blocking & Concurrency**
+  - Active blocking sessions with query details
+  - Blocking chains and root blockers
+  - Deadlock counter
+- **Backup Status**
+  - Last full, differential, and log backup times
+  - Color-coded alerts for overdue backups (>24 hours)
+  - Backup duration trends
+- **Connection Statistics** - Active connections by login
+- **Error tracking** - System errors and failed login attempts
+
+### Additional Features
+- **Auto-refresh** - Configurable intervals (5s, 10s, 30s, 60s, or manual)
+- **Color-coded Health Indicators** - Green/Yellow/Red thresholds
+- **Interactive Charts** - Hover tooltips with detailed information
+- **Responsive Design** - Clean, professional UI with card-based layout
+
+## Dashboard Pages
+
+### Overview 
+High-level system health with gauges, KPIs, and critical metrics for quick assessment.
+
+### Performance
+Deep dive into query performance, CPU usage, wait statistics, and throughput metrics.
+
+### Storage
+I/O latency analysis, file sizes, index fragmentation, and missing index recommendations.
+
+### Reliability
+Backup status, blocking sessions, uptime tracking, and connection monitoring.
 
 ## Prerequisites
 
 - Python 3.7 or higher
 - SQL Server instance with appropriate permissions
 - ODBC Driver for SQL Server
+- SQL Server permissions: VIEW SERVER STATE, VIEW DATABASE STATE
 
 ## Installation
 
@@ -47,6 +104,99 @@ pip install -r requirements.txt
 ```bash
 python sql_wait_stats_dashboard.py
 ```
+
+Or use the provided batch file (Windows):
+```bash
+start_dashboard.bat
+```
+
+2. Open your web browser and navigate to:
+```
+http://127.0.0.1:8050
+```
+
+3. Use the tab navigation to switch between dashboard pages
+4. Configure the refresh interval using the dropdown in the header
+
+## Performance Thresholds
+
+The dashboard uses the following health thresholds:
+
+### CPU
+- 🟢 Green: < 70%
+- 🟡 Yellow: 70-85%
+- 🔴 Red: > 85%
+
+### Memory (Page Life Expectancy)
+- 🟢 Green: > 300 seconds
+- 🟡 Yellow: 150-300 seconds
+- 🔴 Red: < 150 seconds
+
+### I/O Latency
+- 🟢 Green: < 10ms
+- 🟡 Yellow: 10-20ms
+- 🔴 Red: > 20ms
+
+### Backups
+- 🟢 Green: < 12 hours since last full backup
+- 🟡 Yellow: 12-24 hours
+- 🔴 Red: > 24 hours
+
+## Monitored Metrics
+
+### Performance Metrics
+- Query execution statistics (avg, p95, p99 duration)
+- CPU utilization (SQL Server and overall)
+- Memory statistics (Buffer cache hit ratio, PLE)
+- Batch requests per second
+- Scheduler queue length
+
+### Storage Metrics
+- I/O latency per database/file
+- Database and log file sizes
+- Index fragmentation levels
+- Missing index recommendations
+- File growth statistics
+
+### Reliability Metrics
+- SQL Server uptime
+- Blocking sessions and deadlocks
+- Backup age and status
+- Active connections
+- Error counts
+
+## Troubleshooting
+
+### Connection Issues
+- Verify SQL Server is accessible from your machine
+- Check firewall settings allow TCP/IP connections
+- Ensure SQL Server authentication is enabled
+- Verify user has VIEW SERVER STATE permission
+
+### Performance Issues
+- Increase refresh interval to reduce query load
+- Ensure SQL Server has sufficient resources
+- Check that DMVs are not being cleared frequently
+
+### Missing Data
+- Some metrics require specific SQL Server editions (Enterprise/Standard)
+- Backup information comes from MSDB database
+- Ensure appropriate permissions are granted
+
+## Contributing
+
+Feel free to submit issues or pull requests for improvements.
+
+## License
+
+MIT License
+
+## Acknowledgments
+
+Built with:
+- [Plotly](https://plotly.com/) - Interactive charts
+- [Dash](https://dash.plotly.com/) - Web application framework
+- [Pandas](https://pandas.pydata.org/) - Data manipulation
 
 2. Open your browser and navigate to:
 ```
