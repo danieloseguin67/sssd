@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  sssd:
+    build: .
+    container_name: sql-server-stats-dashboard
+    ports:
+      - "8050:8050"
+    environment:
+      - DASH_DEBUG_MODE=False
+      - DASH_HOST=0.0.0.0
+      - DASH_PORT=8050
+    volumes:
+      # Mount config.json as volume so you can update connection settings without rebuilding
+      - ./config.json:/app/config.json:ro
+    restart: unless-stopped
+    networks:
+      - monitoring
+
+networks:
+  monitoring:
+    driver: bridge

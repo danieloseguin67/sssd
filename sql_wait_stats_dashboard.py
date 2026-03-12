@@ -1514,4 +1514,9 @@ def render_reliability_page(db):
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='127.0.0.1', port=8050)
+    # Read configuration from environment variables for Docker deployment
+    debug_mode = os.getenv('DASH_DEBUG_MODE', 'False').lower() == 'true'
+    host = os.getenv('DASH_HOST', '0.0.0.0')
+    port = int(os.getenv('DASH_PORT', '8050'))
+    
+    app.run(debug=debug_mode, host=host, port=port)
